@@ -6,14 +6,13 @@ node{
             
             shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
-            steps{
-                
+                          
                 docker.withRegistry("${env.URL_REGISTRY_DOCKER}")
                 echo "Rebuilding..."
                 def rebuildImage = docker.build("infraascode:${env.BUILD_ID}")
                 echo "Pushing..."
                 rebuildImage.push()                
                 
-            }    
+            
         }     
 }
