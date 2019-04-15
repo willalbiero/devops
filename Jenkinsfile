@@ -19,8 +19,9 @@ pipeline{
             }
             steps{
                 echo "Rebuilding..."
-                script {
+                
                 docker.withRegistry("${env.URL_REGISTRY_DOCKER}")
+                script {
                 def rebuildImage = docker.build("infraascode:${env.BUILD_ID}")
 
                 rebuildImage.push()                
