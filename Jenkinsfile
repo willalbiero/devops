@@ -1,6 +1,9 @@
 pipeline{
     agent any
 
+    environment{
+        URL_REGISTRY_DOCKER = ''
+    }
     stages{
         stage("Checkout"){
             steps{
@@ -15,7 +18,11 @@ pipeline{
                 }
             }
             steps{
-                echo "Building..."
+                echo "Rebuilding..."
+                docker.withRegistry("${env.URL_REGISTRY_DOCKER}")
+                def rebuildImage = docker.build("infraascode:${env.BUILD_ID}")
+
+                rebuildImage.push()                
             }
         }
     }
