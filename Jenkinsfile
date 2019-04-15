@@ -1,10 +1,26 @@
-node {
-    checkout scm
+pipeline{
+    agent any
 
-    docker.withRegistry('http://ec2-18-233-153-17.compute-1.amazonaws.com:5000') {
+    environment{
+        URL_REGISTRY_DOCKER = 'http://ec2-18-233-153-17.compute-1.amazonaws.com:5000'
+    }
+    stages{
 
-        docker.image('infraascode').inside {
-            sh 'make test'
+        stage("Build Image Container"){
+            when{
+                anyOf {
+                    changeset 'Dockerfile'
+                }
+            }
+            steps{
+              
+              script { 
+                echo "Rebuilding..."
+                def rebuildImage = docker.build("infraascode:${env.BUILD_ID}")
+                echo "Pushing..."
+                
+               }    
+            }
         }
     }
 }
