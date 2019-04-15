@@ -13,15 +13,16 @@ pipeline{
                 }
             }
             steps{
-                node {
+
+               script{    
                 echo "Rebuilding..."
                 
                 docker.withRegistry("${env.URL_REGISTRY_DOCKER}")
                 def rebuildImage = docker.build("infraascode:${env.BUILD_ID}")
 
                 rebuildImage.push()                
-                
-                }
+
+               }    
             }
         }
     }
