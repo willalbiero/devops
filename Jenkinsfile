@@ -14,8 +14,6 @@ node{
                 echo "Pushing..."
                 rebuildImage.push()                
                 
-               }    
-            }
-        }
-    
+            }    
+        }     
 }
