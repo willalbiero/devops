@@ -12,9 +12,6 @@ pipeline{
             when{
                 anyOf {
                     changeset 'Dockerfile'
-                    expression {
-                        return currentBuild.number == 1
-                    }
                 }
             }
             steps{
