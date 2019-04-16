@@ -32,15 +32,17 @@ pipeline{
         }
 
         stage ("Deploy Container"){
-            
-            script{
-            if(build_ok){
-                sh """
-                   
-                    docker run -dit -p 8082:8080 --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
-                   
-                   """ 
-            }
+
+            steps{
+                script{
+                    if(build_ok){
+                      sh """
+
+                         docker run -dit -p 8082:8080 --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
+
+                         """  
+                    }
+                }
             }
         }
     }
