@@ -28,9 +28,9 @@ pipeline{
                    """
                }    
             }
-        }
 
-        stage ("Deploy Container"){
+      stages{
+         stage ("Deploy Container"){
             steps{
                 script{
                     
@@ -42,5 +42,9 @@ pipeline{
                 }
             }
         }
+
+      }
+        }
+        
     }
 }
