@@ -9,5 +9,3 @@ WORKDIR /home/
 RUN git clone https://github.com/willalbiero/devops.git
 
 CMD service php7.0-fpm start && nginx -g "daemon off;"
-
-EXPOSE 8082
