@@ -28,9 +28,14 @@ pipeline{
                    """
                }    
             }
+        }
 
-      stages{
-         stage ("Deploy Container"){
+        stage ("Deploy Container"){
+            when{
+                anyOf {
+                    changeset 'Dockerfile'
+                }
+            }
             steps{
                 script{
                     
@@ -42,9 +47,5 @@ pipeline{
                 }
             }
         }
-
-      }
-        }
-        
     }
 }
