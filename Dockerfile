@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y nginx php7.0-fpm curl git 
+RUN apt-get update && apt-get install -y nginx php7.0-fpm curl git && apt-get clean
 
 RUN rm /etc/nginx/sites-available/default
 ADD ./default /etc/nginx/sites-available/default
