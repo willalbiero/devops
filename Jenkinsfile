@@ -39,8 +39,8 @@ pipeline{
             steps{
                 script{
                       
-                      sh """
-                         'docker ps -a -q -f "name=infraascode-*" | xargs docker rm -f' && docker run -dit -p 8082:8080 --hostname infraascode --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
+                      sh """#!/bin/bash
+                         'docker ps -a -q -f "name=infraascode-*" | xargs docker rm -f' && docker run -dit -p 8083:8080 --hostname infraascode --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
 
                          """  
                 }
