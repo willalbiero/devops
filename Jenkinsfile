@@ -32,7 +32,7 @@ pipeline{
             steps{
                 sh """
                    
-                    docker run -dit -p 8082:8080 --name infraascode/${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
+                    docker run -dit -p 8082:8080 --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
                    
                    """ 
             }
