@@ -5,7 +5,8 @@ pipeline{
         URL_REGISTRY_DOCKER = 'localhost:5000'
     }
     stages{
-
+        
+        boolean testPassed = false
         stage("Build Image Container & Push"){
             when{
                 anyOf {
@@ -25,14 +26,12 @@ pipeline{
 
                    """
                }    
+               testPassed = true
             }
         }
 
         stage ("Deploy Container"){
-            when{ 
-                not stages("Build Image Container & Push").skipped
-            }
-            steps{
+            if(testPassed){
                 sh """
                    
                     docker run -dit -p 8082:8080 --name infraascode-${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
