@@ -29,8 +29,8 @@ pipeline{
         }
 
         stage ("Deploy Container"){
-            when{
-                stage "Build Image Container & Push"
+            when{ 
+                stages("Build Image Container & Push").skipped
             }
             steps{
                 sh """
