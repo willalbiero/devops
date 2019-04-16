@@ -6,7 +6,7 @@ RUN rm /etc/nginx/sites-available/default
 ADD ./default /etc/nginx/sites-available/default
 
 WORKDIR /home/
-RUN git clone https://github.com/willalbiero/devops.git 
+RUN git clone https://github.com/willalbiero/devops.git
 
 CMD service php7.0-fpm start && nginx -g "daemon off;"
 
