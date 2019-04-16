@@ -21,16 +21,20 @@ pipeline{
                 
                 sh """
 
-                docker tag infraascode:${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID} && docker push ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
+                    docker tag infraascode:${env.BUILD_ID} ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID} && docker push ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
 
-                """
+                   """
                }    
             }
         }
 
         stage ('Deploy Container'){
             steps{
-                sh 'docker run -dit -p 8080:8080 --name infraascode ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}'
+                sh """
+                   
+                    docker run -dit -p 8080:8080 --name infraascode ${env.URL_REGISTRY_DOCKER}/infraascode:${env.BUILD_ID}
+                   
+                   """ 
             }
         }
     }
