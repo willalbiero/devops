@@ -1,0 +1,58 @@
+image: docker:18.09-dind
+
+services: 
+  - docker:18.09-dind
+
+before_script:
+     - apk update && apk add openssh
+variables:
+    IMAGE_NAME: "king-infra"
+    REGISTRY: "registry.infra-king.tk:5000"
+  
+stages:
+ - build
+ - deploy
+ 
+variables:
+    IMAGE_NAME: "king-infra"
+    REGISTRY: "registry.infra-king.tk:5000"
+
+build_stage:
+    
+    stage: build
+    script: 
+      - docker build -t ${IMAGE_NAME} .
+      - docker tag ${IMAGE_NAME}:latest ${REGISTRY}/${IMAGE_NAME}:latest
+      - docker push ${REGISTRY}/${IMAGE_NAME}:latest
+      - docker push registry.infra-king.tk:5000/king-infra:latest
+    tags:
+      - docker
+    
+    only: 
+      - master
+
+build_deply:
+
+    stage: deploy
+    
+    before_script:
+     - apk update && apk add openssh-client
+     - eval "$(ssh-agent -s)"
+     - echo "$DEPLOY_KEY" | ssh-add - > /dev/null
+#     - bash -c 'ssh-add <(echo "$DEPLOY_KEY")'
+     - mkdir -p ~/.ssh
+     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    script:
+      - scp -r /etc/docker/certs.d/ deploy@infra-king.tk:/etc/docker/certs.d
+      - ssh -t deploy@infra-king.tk "docker rm -f ${IMAGE_NAME}"
+      - ssh -t deploy@infra-king.tk "docker pull ${REGISTRY}/${IMAGE_NAME}:latest"
+      - ssh -t deploy@infra-king.tk "docker run -dit -p 6537:8080 --name ${IMAGE_NAME} ${REGISTRY}/${IMAGE_NAME}:latest"
+ 
+    tags:
+      - docker
+      
+    environment: 
+       name: production
+    only:
+      - master
