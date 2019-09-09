@@ -2,7 +2,7 @@ server {
     listen 8080 default_server;
     listen [::]:8080 default_server;
 
-    root /home/devops/;
+    root /home/app/;
     index index.php index.html index.htm index.nginx-debian.html;
 
     server_name _;
